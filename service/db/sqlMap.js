@@ -1,6 +1,6 @@
 var sqlMap = {
     user: {
-        add: 'insert into user (username, account, password, repeatPass, email, phone, card, birth, sex) values (?,?,?,?,?,?,?,?,?)',
+        add: 'insert into user (username, password, email, telephone) values (?,?,?,?)',
         select_name: 'select * from user', 
         update_user: 'update user set'
     }

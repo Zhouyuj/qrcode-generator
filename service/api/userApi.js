@@ -27,8 +27,7 @@ router.post('/addUser', (req, res) => {
     var params = req.body;
     console.log(params);
     console.log(params.birth);
-    conn.query(sql, [params.name, params.account, params.pass, params.checkPass,
-                    params.email, params.phone, params.card, dateStr(params.birth), params.sex], function(err, result) {
+    conn.query(sql, [params.username, params.password, params.email, params.telephone], function(err, result) {
         if (err) {
             console.log(err);
         }
@@ -96,10 +95,7 @@ router.post('/updateUser', (req, res) => {
     console.log(params);
     if (params.id) {
         sql_update  += " email = '" + params.email +
-                        "',phone = '" + params.phone +
-                        "',card = '" + params.card +
-                        "',birth = '" + params.birth +
-                        "',sex = '" + params.sex +
+                        "',telephone = '" + params.telephone +
                         "' where id ='"+ params.id + "'";
     }    
     conn.query(sql_update, params.id, function(err, result) {
@@ -122,7 +118,7 @@ router.post('/modifyPassword', (req, res) => {
     console.log(params);
     if (params.id) {
         sql_modify +=  " password = '" + params.pass +
-                        "',repeatPass = '" + params.checkPass +
+                        // "',repeatPass = '" + params.checkPass +
                         "' where id ='"+ params.id + "'";
     }
     conn.query(sql_modify, params.id, function(err, result) {

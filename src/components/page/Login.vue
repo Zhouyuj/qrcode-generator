@@ -63,7 +63,7 @@
                 const self = this;
                 self.$refs[formName].validate((valid) => {
                     if (valid) {                      
-                        self.$http.post('/api/user/login',JSON.stringify(self.ruleForm))
+                        self.$http.post('/api/login',JSON.stringify(self.ruleForm))
                         .then((response) => {
                             console.log(response);
                             if (response.data == -1) {
@@ -124,7 +124,7 @@
                         localStorage.setItem('ms_username',self.ruleForm.name);
                         localStorage.setItem('ms_user',JSON.stringify(self.ruleForm));
                         console.log(JSON.stringify(self.ruleForm));                        
-                        self.$http.post('/api/user/login',JSON.stringify(self.ruleForm))
+                        self.$http.post('/api/login',JSON.stringify(self.ruleForm))
                         .then((response) => {
                             console.log(response);
                             if (response.data == -1) {
