@@ -7,7 +7,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/login'
+            redirect: '/index'
         },
         {
             path: '/readme',
@@ -50,6 +50,10 @@ export default new Router({
         {
             path: '/login',
             component: resolve => require(['../components/page/Login.vue'], resolve)
+        },
+        {
+            path: '/index',
+            component: resolve => require(['../components/page/main/Index.vue'], resolve)
         },
     ]
 })
