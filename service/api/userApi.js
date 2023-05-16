@@ -1,7 +1,7 @@
 var models = require('../db/db');
 var express = require('express');
 var router = express.Router();
-var mysql = require('mysql');
+var mysql = require('mysql2');
 var $sql = require('../db/sqlMap');
 
 var conn = mysql.createConnection(models.mysql);
@@ -20,6 +20,23 @@ var jsonWrite = function(res, ret) {
 var dateStr = function(str) {
     return new Date(str.slice(0,7));
 }
+
+router.post('/generateCode', async (req, res) => {
+    var body = req.body;
+    console.log(body)
+
+    try {
+      var result = await fetch('https://qrtiger.com/qrcodes/qr2', {
+        method: 'POST',
+        body,
+        })
+        var json = await result.json();  
+        jsonWrite(res, json);
+    } catch(e) {
+        res.send('-1')
+    } 
+    
+})
 
 // 增加用户接口
 router.post('/addUser', (req, res) => {

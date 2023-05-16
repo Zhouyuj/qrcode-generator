@@ -7,12 +7,16 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state () {
     return {
-      qrcodeType: 'url'
+      qrcodeType: 'url',
+      qrcodeSrc: ''
     }
   },
   mutations: {
     setQrcodeType (state, type) {
       state.qrcodeType = type;
+    },
+    setQrcodeSrc (state, src) {
+      state.qrcodeSrc = src;
     }
   }
 })

@@ -11,12 +11,12 @@
                 v-if="['URL', 'Google Form', 'Facebook', 'Youtube', 'Instagram', 'Pinterest'].includes(activeQrType)">
                 <div class="d-flex flex-column"><input name="url" class="err form-control" type="text"
                         placeholder="https://www.mywebsite.com" value="">
-                    <div class="extract-url">
+                    <!-- <div class="extract-url">
                         <div class="file-wrapper"><input class="form-control hidden" type="text" readonly="" value=""><input
                                 class="hidden" type="file" accept=".png,.jpeg,.jpg,.svg" value="">
                             <div class="btn-upload link pointer">...or Upload a QR code image to extract the URL</div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="form-group" v-if="activeQrType === 'File'">
@@ -141,7 +141,8 @@
                 </div>
             </div>
             <div class="flex flex-wrap qr-generate-block"><button id="generate-qr-code"
-                    class="d-flex justify-content-center align-items-center btn btn-qr2 col-sm-12 col-md-4 col-lg-3 disabled">Generate
+                    class="d-flex justify-content-center align-items-center btn btn-qr2 col-sm-12 col-md-4 col-lg-3"
+                    @click="generateCode">Generate
                     QR code</button>
                 <div class="guide-link mt-3 mt-md-0 col-sm-12 col-md-8 col-lg-9 pl-0 pl-md-3">
                     <div class="d-md-flex align-items-center h-100"><i class="qr-exclamation-circle mr-1"></i>We recommend
@@ -173,6 +174,16 @@ export default {
             this.$store.commit('setQrcodeType', item.label);
             console.log(this.$store)
         },
+        generateCode() {
+            this.$http.post('/api/generateCode', {"backgroundColor":"rgb(255,255,255)","colorDark":"rgb(5,64,128)","colorType":"SINGLE_COLOR","gradientType":"linear","frameColor":"#054080","frameColor2":"#3a74c5","frameColorStyleType":"SINGLE_COLOR","frameGradientType":"linear","frameGradientStartColor":"#054080","frameGradientEndColor":"#f30505","frameText":"SCAN ME","eye_outer":"eyeOuter2","eye_inner":"eyeInner1","size":500,"qrData":"pattern6","transparentBkg":false,"qrCategory":"url","text":"https://baidu.com"}).then(r => {
+                console.log(r)
+                // TODO: 判断-1
+                var data = r.data.data;
+                if (data) {
+                    this.$store.commit('setQrcodeSrc', `data:image/png;base64,${data}`);
+                }
+            })
+        }
     },
 };
 </script>
@@ -524,4 +535,5 @@ input[type=radio] {
     border-radius: 4px;
     padding: 18px 16px;
     font-size: 14px;
-}</style>
+}
+</style>
