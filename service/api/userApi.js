@@ -26,13 +26,18 @@ router.post('/generateCode', async (req, res) => {
     console.log(body)
 
     try {
-      var result = await fetch('https://qrtiger.com/qrcodes/qr2', {
+      var result = await fetch('https://qrtiger.com/api/campaign/', {
         method: 'POST',
         body,
+        
+            headers: {Authorization: 'Bearer 8d421250-ddb5-11ed-b589-7b17f4c12f74'}
+        
+        
         })
         var json = await result.json();  
         jsonWrite(res, json);
     } catch(e) {
+        console.log(JSON.stringify(e))
         res.send('-1')
     } 
     

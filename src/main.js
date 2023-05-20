@@ -9,6 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import SIdentify from './components/page/Identify';    //自定义组件
 import "babel-polyfill";
 import store from './store/index'
+import i18n from './assets/language';
 
 Vue.component("SIdentify",SIdentify);
 Vue.use(ElementUI);
@@ -21,5 +22,6 @@ Vue.prototype.$http = window.axios
 new Vue({
     store,
     router,
+    i18n,
     render: h => h(App)
 }).$mount('#app');

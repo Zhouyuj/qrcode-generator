@@ -2,10 +2,10 @@
     <div class="col-md-12 settings mb-4">
         <div class="meta-data">
             <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-                <div><label class="first-step-label flex-shrink-0">STEP 1</label><span>Enter the URL</span></div>
-                <div class="guide-link d-flex align-items-center flex-wrap"><i class="qr-exclamation-circle mr-1"></i>Learn
+                <div><label class="first-step-label flex-shrink-0">{{$t("one.stepOne")}}</label><span>{{$t("one.enterUrl")}}</span></div>
+                <!-- <div class="guide-link d-flex align-items-center flex-wrap"><i class="qr-exclamation-circle mr-1"></i>Learn
                     how to track data with <a href="/how-do-dynamic-qr-codes-work" class="link ml-1" target="_blank">dynamic
-                        QR codes</a></div>
+                        QR codes</a></div> -->
             </div>
             <div class="url form-group"
                 v-if="['URL', 'Google Form', 'Facebook', 'Youtube', 'Instagram', 'Pinterest'].includes(activeQrType)">
@@ -19,6 +19,46 @@
                     </div> -->
                 </div>
             </div>
+            <div class="vCard form-group" v-if="activeQrType === 'vCard'">
+                <div class="row  vCard-form">
+                    <div class="row v-card-detail px-1">
+                        <div class="col-md-6 mb-3"><label for="qrcodeVcardName">{{$t("one.name")}}</label><input
+                                name="qrcodeVcardName" class="form-control" type="text" placeholder="Your Name"
+                                ><input name="qrcodeVcardWebsite" class="form-control mt-2" type="text"
+                                placeholder="Your Website (https://)" value=""></div>
+                        <div class="col-md-6 mb-3"><label for="qrcodeVcardOrganization">{{$t("one.company")}}</label><input
+                                name="qrcodeVcardOrganization" class="form-control" type="text" placeholder="Company Name"
+                                ><input name="qrcodeVcardTitle" class="form-control mt-2" type="text"
+                                placeholder="Position" value=""></div>
+                        <div class="col-md-6 mb-3"><label class="w-100" for="qrcodeVcardPhoneWork">{{$t("one.contact")}}</label>
+                            <div class="v-card-block"><input name="qrcodeVcardPhoneMobile" class="form-control" type="text"
+                                    placeholder="Mobile Phone" ><input name="qrcodeVcardPhoneWork"
+                                    class="form-control" type="text" placeholder="Mobile Phone (Work)" value=""></div>
+                            <div class="v-card-block mt-2"><input name="qrcodeVcardPhonePrivate" class="form-control"
+                                    type="text" placeholder="Phone" value=""><input name="qrcodeVcardFax"
+                                    class="form-control" type="text" placeholder="Fax" value=""></div>
+                            <div class="v-card-block mt-2"><input name="qrcodeVcardEmail" class="form-control" type="text"
+                                    placeholder="Your Email (username@email.com)" value=""></div>
+                        </div>
+                        <div class="col-md-6 mb-3"><label class="w-100" for="qrcodeVcardStreet">{{$t("one.address")}}</label>
+                            <div class="v-card-block"><input name="qrcodeVcardCountry" class="form-control" type="text"
+                                    placeholder="Country" ><input name="qrcodeVcardState" class="form-control"
+                                    type="text" placeholder="State"></div>
+                            <div class="v-card-block mt-2"><input name="qrcodeVcardStreet" class="form-control" type="text"
+                                    placeholder="Street" ></div>
+                            <div class="v-card-block mt-2"><input name="qrcodeVcardCity" class="form-control" type="text"
+                                    placeholder="City" value=""><input name="qrcodeVcardZipcode" class="form-control"
+                                    type="text" placeholder="Zipcode" ></div>
+                        </div>
+                        <div class="col-12 vCard-container">
+                            <div class="w-100"><label for="qrcodeVcardAdditionalInfo">{{$t("one.personDesc")}}</label><textarea name="qrcodeVcardAdditionalInfo" rows="5"
+                                    class="form-control" type="text"
+                                    placeholder="Give a brief description of yourself"></textarea></div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="form-group" v-if="activeQrType === 'File'">
                 <div class="file form-action d-flex align-items-center">
                     <div class="upload-section">
@@ -29,8 +69,7 @@
                                         accept=".png,.mp4,.pdf,.jpeg,.jpg,.xlsx,.docx" value="">
                                     <div class="btn-upload btn">
                                         <div class="d-flex align-items-center">
-                                            <div class="icon-wrapper mr-2"><i class="qr-plus-circle"></i></div><span>Upload
-                                                File</span>
+                                            <div class="icon-wrapper mr-2"><i class="qr-plus-circle"></i></div><span>{{$t("one.uploadFile")}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -38,7 +77,7 @@
                         </div>
                     </div>
                     <div class="description-section">
-                        <div class="supported"><span>Supported formats:</span>
+                        <div class="supported"><span>{{$t("one.supportedFormats")}}</span>
                             <div class="supported-list">
                                 <div class="supported-item">PDF</div>
                                 <div class="supported-item">JPEG</div>
@@ -67,7 +106,7 @@
             </div>
             <div class="row wifi" v-if="activeQrType === 'Wi-Fi'">
                 <div class="col-md-4 form-group d-flex flex-column justify-content-between"><label class="text-bold"
-                        for="wifiType">Type</label>
+                        for="wifiType">{{$t("one.type")}}</label>
                     <div class=" css-b62m3t-container"><span id="react-select-3-live-region"
                             class="css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false"
                             aria-relevant="additions text" class="css-7pg0cj-a11yText"></span>
@@ -114,9 +153,9 @@
                         placeholder="Text"></textarea></div>
             </div>
             <div class="form-group row url" v-if="activeQrType === 'App stores'">
-                <div class="col-md-12 mb-3"><label class="text-bold" for="appleStore">URL for iOS</label><input
+                <div class="col-md-12 mb-3"><label class="text-bold" for="appleStore">{{$t("one.urlForIOS")}}</label><input
                         name="appleStore" class="err form-control" type="text" placeholder="https://" value=""></div>
-                <div class="col-md-12"><label class="text-bold" for="googleStore">URL for Android</label><input
+                <div class="col-md-12"><label class="text-bold" for="googleStore">{{$t("one.urlForAndroid")}}</label><input
                         name="googleStore" class="err form-control" type="text" placeholder="https://" value=""></div>
             </div>
             <div class="qr-type-block"
@@ -142,12 +181,11 @@
             </div>
             <div class="flex flex-wrap qr-generate-block"><button id="generate-qr-code"
                     class="d-flex justify-content-center align-items-center btn btn-qr2 col-sm-12 col-md-4 col-lg-3"
-                    @click="generateCode">Generate
-                    QR code</button>
-                <div class="guide-link mt-3 mt-md-0 col-sm-12 col-md-8 col-lg-9 pl-0 pl-md-3">
+                    @click="generateCode">{{$t("one.genQRBtn")}}</button>
+                <!-- <div class="guide-link mt-3 mt-md-0 col-sm-12 col-md-8 col-lg-9 pl-0 pl-md-3">
                     <div class="d-md-flex align-items-center h-100"><i class="qr-exclamation-circle mr-1"></i>We recommend
                         creating a dynamic QR code if you want to track performance and edit data even after printing.</div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -175,13 +213,51 @@ export default {
             console.log(this.$store)
         },
         generateCode() {
-            this.$http.post('/api/generateCode', {"backgroundColor":"rgb(255,255,255)","colorDark":"rgb(5,64,128)","colorType":"SINGLE_COLOR","gradientType":"linear","frameColor":"#054080","frameColor2":"#3a74c5","frameColorStyleType":"SINGLE_COLOR","frameGradientType":"linear","frameGradientStartColor":"#054080","frameGradientEndColor":"#f30505","frameText":"SCAN ME","eye_outer":"eyeOuter2","eye_inner":"eyeInner1","size":500,"qrData":"pattern6","transparentBkg":false,"qrCategory":"url","text":"https://baidu.com"}).then(r => {
+            this.$store.commit('setShowGeneratedCode', false);
+            this.$http.post('/api/generateCode', {
+                "qr": {
+
+                    "size": 500,
+
+                    "colorDark": "rgb(5,64,128)",
+
+                    "logo": "1545827032075.png",
+
+                    "eye_outer": "eyeOuter2",
+
+                    "eye_inner": "eyeInner1",
+
+                    "qrData": "pattern0",
+
+                    "backgroundColor": "rgb(255,255,255)",
+
+                    "transparentBkg": false,
+
+                    "qrCategory": "url",
+
+                    "text": "https://www.qrcode-tiger.com/"
+
+                },
+
+                "murlData": [],
+
+                "qrUrl": "https://www.qrcode-tiger.com",
+
+                "qrType": "qr2",
+
+                "qrCategory": "url",
+
+                "qrId": "MP72"
+            }).then(r => {
                 console.log(r)
                 // TODO: 判断-1
                 var data = r.data.data;
                 if (data) {
                     this.$store.commit('setQrcodeSrc', `data:image/png;base64,${data}`);
+                    this.$store.commit('setShowGeneratedCode', true);
                 }
+            }).finally(() => {
+
             })
         }
     },

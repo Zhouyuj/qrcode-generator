@@ -1,11 +1,13 @@
 <template>
         <div class="col-md-12 settings-menu">
             <div class="menu">
+                <!-- <i class="bi bi-caret-right text-light"></i>
+                <i class="bi bi-caret-left text-light hidden"></i> -->
                 <div class="type-bar-inner custom-tab mb-0">
                     <li class="menu-tab" @click="itemClick(item)"  v-for="item in options" :key="item.id">
                         <div class="menu-item" :class="{'active': item.active}">
                             <div class="nav-icon-img">
-                                <i :class="'el-icon-' + item.csslabel"></i>
+                                <i :class="'bi bi-' + item.csslabel"></i>
                             </div>
                             <div class="title">{{ item.label }}</div>
                         </div>
@@ -22,69 +24,81 @@ export default {
         return {
             options: [
                 {
-                    csslabel: "news",
+                    csslabel: "link",
                     id: 1,
                     label: "URL",
                     active: true,
                 },
                 {
-                    csslabel: "news",
+                    csslabel: "facebook",
                     id: 22,
                     label: "Facebook",
                     active: false,
                 },
                 {
-                    csslabel: "tickets",
+                    csslabel: "file",
                     id: 23,
                     label: "File",
                     active: false,
                 },
                 {
-                    csslabel: "news",
+                    csslabel: "wifi",
                     id: 12,
                     label: "Wi-Fi",
                     active: false,
                 },
                 {
-                    csslabel: "tickets",
+                    csslabel: "google",
                     id: 25,
                     label: "Google Form",
                     active: false,
                 },
                 {
-                    csslabel: "tickets",
+                    csslabel: "youtube",
                     id: 26,
                     label: "Youtube",
                     active: false,
                 },
                 {
-                    csslabel: "tickets",
+                    csslabel: "instagram",
                     id: 27,
                     label: "Instagram",
                     active: false,
                 },
                 {
-                    csslabel: "tickets",
+                    csslabel: "pinterest",
                     id: 28,
                     label: "Pinterest",
                     active: false,
                 },
                 {
-                    csslabel: "tickets",
+                    csslabel: "envelope",
                     id: 29,
                     label: "Email",
                     active: false,
                 },
                 {
-                    csslabel: "tickets",
+                    csslabel: "card-text",
                     id: 30,
                     label: "Text",
                     active: false,
                 },
                 {
-                    csslabel: "tickets",
+                    csslabel: "apple",
                     id: 31,
                     label: "App stores",
+                    active: false,
+                },
+                {
+                    csslabel: "person-vcard",
+                    id: 32,
+                    label: "vCard",
+                    active: false,
+                },
+                {
+                    csslabel: "credit-card",
+                    id: 33,
+                    label: "H5 editor",
                     active: false,
                 },
             ],
@@ -125,7 +139,7 @@ export default {
     border: 0!important;
     width: 100%;
     flex-shrink: 0;
-    overflow-x: auto;
+    overflow-x: hidden;
     overflow-y: hidden;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -208,4 +222,21 @@ export default {
     background: #fff;
     color: #000;
 }
+
+.generator-container .menu i.bi-caret-right {
+    right: 10px;
+}
+.bi::before {
+    transform: scale(1.5);
+}
+.generator-container .menu .bi-caret-left, .generator-container .menu .bi-caret-right {
+    font-weight: 700;
+    font-size: 12px;
+    position: absolute;
+    top: 40px;
+    height: 14px;
+    width: 6px;
+    cursor: pointer;
+}
+
 </style>

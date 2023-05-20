@@ -343,7 +343,7 @@
                         <div class="canvas-cover">
                             <div class="canvas">
                                 <picture class="text-center">
-                                    <!-- <div class="d-flex justify-content-center align-items-center cover">
+                                    <div class="d-flex justify-content-center align-items-center cover" v-if="!showGeneratedCode">
                                         <div class="spinner">
                                             <div data-testid="bars-loading" aria-label="bars-loading"
                                                 style="display: flex; justify-content: center;"><svg width="80" height="80"
@@ -391,8 +391,8 @@
                                                     </rect>
                                                 </svg></div>
                                         </div>
-                                    </div> -->
-                                    <img :src="generatedCodeSrc" class="canvas-image-preview" alt="free qr code"
+                                    </div>
+                                    <img :src="generatedCodeSrc" v-if="showGeneratedCode" class="canvas-image-preview" alt="free qr code"
                                         height="auto">
                                 </picture>
                             </div>
@@ -446,6 +446,9 @@ export default {
         },
         generatedCodeSrc: function () {
             return this.$store.state.qrcodeSrc
+        },
+        showGeneratedCode: function() {
+            return this.$store.state.showGeneratedCode;
         }
     },
     data() {
@@ -843,6 +846,8 @@ export default {
             item.active = true;
         }
     },
+    mounted() {
+    }
 };
 </script>
 
