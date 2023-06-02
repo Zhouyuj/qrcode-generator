@@ -214,41 +214,29 @@ export default {
         },
         generateCode() {
             this.$store.commit('setShowGeneratedCode', false);
-            this.$http.post('/api/generateCode', {
-                "qr": {
+            this.$http.post('/generateCode', {
 
-                    "size": 500,
+"size": 500,
 
-                    "colorDark": "rgb(5,64,128)",
+"colorDark": "rgb(5,64,128)",
 
-                    "logo": "1545827032075.png",
+"logo": "scan_me.png",
 
-                    "eye_outer": "eyeOuter2",
+"eye_outer": "eyeOuter2",
 
-                    "eye_inner": "eyeInner1",
+"eye_inner": "eyeInner1",
 
-                    "qrData": "pattern0",
+"qrData": "pattern0",
 
-                    "backgroundColor": "rgb(255,255,255)",
+"backgroundColor": "rgb(255,255,255)",
 
-                    "transparentBkg": false,
+"transparentBkg": false,
 
-                    "qrCategory": "url",
+"qrCategory": "url",
 
-                    "text": "https://www.qrcode-tiger.com/"
+"text": "https://www.baidu.com"
 
-                },
-
-                "murlData": [],
-
-                "qrUrl": "https://www.qrcode-tiger.com",
-
-                "qrType": "qr2",
-
-                "qrCategory": "url",
-
-                "qrId": "MP72"
-            }).then(r => {
+}).then(r => {
                 console.log(r)
                 // TODO: 判断-1
                 var data = r.data.data;

@@ -41,19 +41,24 @@ export default new Router({
         },
         {
             path: '/register',
-            component: resolve => require(['../components/page/Register.vue'], resolve)
+            component: resolve => require(['../components/page/main/Register.vue'], resolve)
         },
         {
             path: '/register-success',
             component: resolve => require(['../components/page/RegisterSuccess.vue'], resolve)
         },
         {
+            path: '/forgot-password',
+            component: resolve => require(['../components/page/main/ForgetPsd.vue'], resolve)
+        },
+        {
             path: '/login',
-            component: resolve => require(['../components/page/Login.vue'], resolve)
+            component: resolve => require(['../components/page/main/Login.vue'], resolve)
         },
         {
             path: '/index',
-            component: resolve => require(['../components/page/main/Index.vue'], resolve)
+            component: resolve => require(['../components/page/main/Main.vue'], resolve)
         },
-    ]
+    ],
+    mode: 'history'
 })

@@ -1,11 +1,25 @@
 <template>
-    <div class="main-container app-container">
-        <div class="relative">
-            <v-head></v-head>
-            <router-view></router-view>
-        </div>
+<div class="main-container-body">
+                <div class="children">
+                    <div class="home">
+                        <div class="section-top">
+                            <div class="container">
+                                <div class="generator-container">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <v-qrcode-type></v-qrcode-type>
+                                            <v-qrcode-one></v-qrcode-one>
+                                            <v-qrcode-two></v-qrcode-two>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    </div>
+            </div>
+
 </template>
 
 <script>

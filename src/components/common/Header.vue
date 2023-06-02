@@ -23,9 +23,27 @@
                         </div> -->
                         <div class="login-menu">
                             <div class="d-flex align-items-center">
-                                <div class="btn-cover"><a class="pointer btn-login" href="/login"><span
-                                            class="underline">{{ $t("login.login") }}</span></a><a class="pointer btn-register"
-                                        href="/register">{{$t("login.register")}}</a></div>
+                                <div class="btn-cover" v-if="isLogged">
+                                    <!-- <a>My account <i class="qr-angle-down ml-2"></i></a> -->
+                                    <el-dropdown @command="account_click" class="pointer username desktop mr-2" >
+                                        <span class="el-dropdown-link">
+                                            My Account<i class="el-icon-arrow-down el-icon--right"></i>
+                                        </span>
+                                        <el-dropdown-menu slot="dropdown">
+                                            <!-- <el-dropdown-item command="english">English</el-dropdown-item> -->
+                                            <el-dropdown-item command="logout">退出</el-dropdown-item>
+                                        </el-dropdown-menu>
+                                    </el-dropdown>
+                                </div>
+                                <div class="btn-cover" v-else>
+                                    <a class="pointer btn-login" href="/login">
+                                        <span
+                                            class="underline">{{ $t("login.login") }}</span>
+                                    </a>
+                                    <a class="pointer btn-register"
+                                        href="/register">{{$t("login.register")}}
+                                    </a>
+                                </div>
                                 <div class="language">
                                     <div class="button language-toggle"><span class="lang"><svg width="17" height="16"
                                                 viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,6 +82,9 @@ export default {
         }
     },
     computed: {
+        isLogged() {
+            return this.$store.state.isLogged;
+        },
         username() {
             let username = sessionStorage.getItem('ms_username');
             return username ? username : this.name;
@@ -91,6 +112,13 @@ export default {
                 this.$i18n.locale = "zh";
                 localStorage.setItem('lang',"zh");
             }
+        },
+        account_click(value) {
+            if (value === 'logout') {
+                this.$store.commit('setIsLogged', false);
+                localStorage.removeItem('token');
+                this.$router.push('/login');
+            }            
         }
     }
 }
@@ -153,7 +181,7 @@ export default {
 }
 .header .navigation-bar .cover-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
 }
 .header .navigation-bar .cover-header .login-menu {
     border-radius: 8px;
@@ -172,7 +200,7 @@ export default {
     align-items: center;
 }
 
-.header .navigation-bar .cover-header .login-menu a {
+.header .navigation-bar .cover-header .login-menu .pointer {
     font-size: 14px;
     padding: 0 4px;
     color: #fff!important;
