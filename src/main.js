@@ -39,7 +39,16 @@ instance.interceptors.request.use(
 // respone拦截器
 instance.interceptors.response.use(
     response => {
-        console.log(response)
+        if (response.data && response.data.code == 401) {
+            ElementUI.Message({
+                message: 'token过期，请重新登录',
+                type: 'error'
+            });
+            router.replace({
+                path: 'login',
+                //query: { redirect: router.currentRoute.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由
+            })
+        }
         return response
     },
     error => {
@@ -47,9 +56,11 @@ instance.interceptors.response.use(
         if (error.response) {
             switch (error.response.status) {
                 case 401:
+                    ElementUI.Message.error('token过期，请重新登录');
+                   
                     router.replace({
                         path: 'login',
-                        query: { redirect: router.currentRoute.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由
+                        //query: { redirect: router.currentRoute.fullPath } // 将跳转的路由path作为参数，登录成功后跳转到该路由
                     })
             }
         }

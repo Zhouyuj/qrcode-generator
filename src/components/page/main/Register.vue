@@ -47,12 +47,12 @@
                         </el-form-item>
                         <el-form-item class="form-group common" prop="password"
                             :error="getErrorForField('password', errors)">
-                            <el-input v-model="form.password" placeholder="Password" 
+                            <el-input v-model="form.password" placeholder="Password"  type="password"
                                 ref="loginInput"></el-input>
                         </el-form-item>
                         <el-form-item class="form-group common" prop="confirmPassword"
                             :error="getErrorForField('confirmPassword', errors)">
-                            <el-input v-model="form.confirmPassword" placeholder="Confirm password"
+                            <el-input v-model="form.confirmPassword" placeholder="Confirm password" type="password"
                                  ref="loginInput"></el-input>
                         </el-form-item>
                         <!-- <div class="form-group common"><input name="email" id="form-control" class="form-control"
@@ -427,9 +427,28 @@
 <script>
 export default {
     data: function () {
+        const customValidator = (rule, value, callback) => {
+            if (['confirmPassword'].includes(rule.field)) {
+                if (!value) {
+                    callback('请输入确认密码')
+                } else if (value && value !== this.form.password) {
+                    callback('两次输入的密码不一致')
+                } else {
+                    callback();
+                }
+            } else if (['password'].includes(rule.field)) {
+                if (!value) {
+                    callback('请输入密码')
+                } else if (value && this.form.confirmPassword && value !== this.form.confirmPassword) {
+                    callback('两次输入的密码不一致')
+                } else {
+                    callback();
+                }
+            }
+        }
         return {
             form: {
-                username: '', password: '', email: '', telephone: ''
+                username: '', password: '', email: '', telephone: '', confirmPassword: ''
             },
             rules: {
                 email: {
@@ -439,7 +458,7 @@ export default {
                 },
                 password: {
                     required: true,
-                    //validator: this.customValidator,
+                    validator: customValidator,
                     //trigger: 'blur'
                 },
                 telephone: {
@@ -459,7 +478,7 @@ export default {
                 },
                 confirmPassword: {
                     required: true,
-                    //validator: this.customValidator,
+                    validator: customValidator,
                     //trigger: 'blur'
                 },
             },
@@ -469,7 +488,6 @@ export default {
     },
     methods: {
         getErrorForField(field, errors) {
-            console.log(field, errors)
             if (!errors && !errors.length) {
                 return false
             }

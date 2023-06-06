@@ -30,7 +30,7 @@
                                             My Account<i class="el-icon-arrow-down el-icon--right"></i>
                                         </span>
                                         <el-dropdown-menu slot="dropdown">
-                                            <!-- <el-dropdown-item command="english">English</el-dropdown-item> -->
+                                            <el-dropdown-item command="change">修改密码</el-dropdown-item>
                                             <el-dropdown-item command="logout">退出</el-dropdown-item>
                                         </el-dropdown-menu>
                                     </el-dropdown>
@@ -116,9 +116,12 @@ export default {
         account_click(value) {
             if (value === 'logout') {
                 this.$store.commit('setIsLogged', false);
+                localStorage.removeItem('isLogged');
                 localStorage.removeItem('token');
                 this.$router.push('/login');
-            }            
+            } else if (value === 'change') {
+                this.$router.push('/change-password');
+            }
         }
     }
 }

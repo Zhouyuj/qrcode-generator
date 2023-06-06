@@ -47,9 +47,9 @@
                                 type="password" placeholder="Password" v-model="form.password"></div>
                     </div> -->
                     <div class="checkbox"><label class="d-flex align-items-center" for="checkbox"><input type="checkbox"
-                                value="remember-me"><span class="ml-1 common">Remember me</span></label></div><button
+                               v-model="rememberMe" @change="toggleRem"><span class="ml-1 common">Remember me</span></label></div><button
                         id="email-login" class="btn btn-lg btn-success btn-block" @click="signIn('form', $event)">Sign in</button>
-                    <div class="form-group text-center mt-3 common"><a class="link" href="/forgot-password">Forgot
+                    <div class="form-group text-center mt-3 common"><a class="link" href="/reset-password">Forgot
                             password</a></div>
                     <div class="form-group text-center mt-2 mb-0 common"><span class="mr-2">Don't have an
                             account?</span><a class="link" href="/register">Sign up</a></div>
@@ -61,6 +61,20 @@
 
 <script>
 export default {
+    mounted() {
+        if (localStorage.getItem('email')) {
+            try {
+                this.rememberMe = JSON.parse(localStorage.getItem('rememberMe'));
+            } catch (e) {
+                this.rememberMe = false;
+            } finally {
+
+            }
+            
+            this.form.email = localStorage.getItem('email');
+            this.form.password = localStorage.getItem('password');
+        }
+    },
     methods: {
         getErrorForField(field, errors) {
             if (!errors && !errors.length) {
@@ -73,12 +87,18 @@ export default {
                 return filtered[0].message
             }
         },
+        toggleRem(e) {
+            // console.log(e.target.checked, this.rememberMe)
+            // localStorage.setItem('rememberMe', e.target.checked);
+        },
         signIn: function(formName, e) {
             e.preventDefault();
             this.$refs[formName].validate(valid => {
                 if (!valid) {
                     return false
                 }
+                
+                
                 this.formProcessing = true;
                 this.$http.post('/login', {
                     email: this.form.email,
@@ -87,9 +107,20 @@ export default {
                     var code = r.data.code;
                     if (code == 200) {
                         localStorage.setItem('token', r.data.token);
+                        localStorage.setItem('isLogged', true);
                         this.$store.commit('setIsLogged', true);
                         this.$store.commit('setUserInfo', r.data.info);
                         this.$router.push('/index');
+
+                        if (this.rememberMe) {
+                            localStorage.setItem('email', this.form.email);
+                            localStorage.setItem('password', this.form.password);
+                            localStorage.setItem('rememberMe', this.rememberMe);
+                        } else {
+                            localStorage.removeItem('email');
+                            localStorage.removeItem('password');
+                            localStorage.removeItem('rememberMe');
+                        }
                     } else {
                         this.$message({
                             message: r.data.msg,
@@ -111,6 +142,7 @@ export default {
                 email: '',
                 password: ''
             },
+            rememberMe: false,
             rules: {
                 email: {
                     required: true,

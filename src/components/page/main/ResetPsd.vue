@@ -3,7 +3,7 @@
         <div class="children">
             <div class="forgot-password-container">
                 <div class="forgot-password col-md-6 col-sm-12">
-                    <h1 class="heading text-center mb-3">Forgot password</h1>
+                    <h1 class="heading text-center mb-3">Reset password</h1>
                     <el-form :model="form" :rules="rules" ref="form" label-position="top">
                         <el-form-item class="form-group common" prop="email"
                             :error="getErrorForField('email', errors)">
@@ -62,18 +62,18 @@ export default {
                 }).then(r => {
                     if (r.data.code == 200) {
                         this.$message({
-                            message: '邮件发送成功',
+                            message: '重置密码邮件发送成功',
                             type: 'success'
                         })
                     } else {
                         this.$message({
-                            message: '邮件发送失败',
+                            message: '重置密码邮件发送失败',
                             type: 'error'
                         })
                     }
                 }).catch(e => {
                     this.$message({
-                            message: '邮件发送失败',
+                            message: '重置密码邮件发送失败',
                             type: 'error'
                         })
                 })

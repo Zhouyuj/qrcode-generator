@@ -48,8 +48,12 @@ export default new Router({
             component: resolve => require(['../components/page/RegisterSuccess.vue'], resolve)
         },
         {
-            path: '/forgot-password',
-            component: resolve => require(['../components/page/main/ForgetPsd.vue'], resolve)
+            path: '/reset-password',
+            component: resolve => require(['../components/page/main/ResetPsd.vue'], resolve)
+        },
+        {
+            path: '/change-password',
+            component: resolve => require(['../components/page/main/ChangePsd.vue'], resolve)
         },
         {
             path: '/login',

@@ -177,12 +177,12 @@ router.post('/updateUser', (req, res) => {
 });
 
 //更改密码
-router.post('/modifyPassword', (req, res) => {
+router.post('/changePassword', (req, res) => {
     var sql_modify = $sql.user.update_user;
     var params = req.body;
     console.log(params);
     if (params.id) {
-        sql_modify += " password = '" + params.passworld +
+        sql_modify += " password = '" + params.password +
             // "',repeatPass = '" + params.checkPass +
             "' where id ='" + params.id + "'";
     }
