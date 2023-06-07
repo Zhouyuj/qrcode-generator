@@ -4,7 +4,7 @@
             <div class="register-container">
                 <el-form :model="form" :rules="rules" ref="form" label-position="top">
                     <div class="register col-md-6 col-sm-12">
-                        <!-- <div id="google-register" class="text-center"><button type="button" class="w-100"
+                        <div id="google-register" class="text-center"><button type="button" class="w-100"
                                 style="background-color: rgb(255, 255, 255); display: inline-flex; align-items: center; color: rgba(0, 0, 0, 0.54); box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 2px 0px, rgba(0, 0, 0, 0.24) 0px 0px 1px 0px; padding: 0px; border-radius: 2px; border: 1px solid transparent; font-size: 14px; font-weight: 500; font-family: Roboto, sans-serif;">
                                 <div
                                     style="margin-right: 10px; background: rgb(255, 255, 255); padding: 10px; border-radius: 2px;">
@@ -25,35 +25,33 @@
                                             <path fill="none" d="M0 0h18v18H0z"></path>
                                         </g>
                                     </svg>
-                                </div><span style="padding: 10px 10px 10px 0px; font-weight: 500;">Sign up with
+                                </div><span style="padding: 10px 10px 10px 0px; font-weight: 500;"
+                                    @click="signWithGoogle">Sign up with
                                     Google</span>
                             </button></div>
                         <div class="w-100 text-center mt-3 mb-3">
                             <div class="signup-with"><span>OR</span></div>
-                        </div> -->
+                        </div>
                         <p class="heading mb-3 text-center">Register</p>
                         <el-form-item class="form-group common" prop="username"
                             :error="getErrorForField('username', errors)">
-                            <el-input v-model="form.username" placeholder="Your Name" 
-                                ref="loginInput"></el-input>
+                            <el-input v-model="form.username" placeholder="Your Name" ref="loginInput"></el-input>
                         </el-form-item>
                         <el-form-item class="form-group common" prop="email" :error="getErrorForField('email', errors)">
-                            <el-input v-model="form.email" placeholder="Email address" 
-                                ref="loginInput"></el-input>
+                            <el-input v-model="form.email" placeholder="Email address" ref="loginInput"></el-input>
                         </el-form-item>
                         <el-form-item class="form-group common" :error="getErrorForField('telephone', errors)">
-                            <el-input v-model="form.telephone" placeholder="Telephone" 
-                                ref="loginInput"></el-input>
+                            <el-input v-model="form.telephone" placeholder="Telephone" ref="loginInput"></el-input>
                         </el-form-item>
                         <el-form-item class="form-group common" prop="password"
                             :error="getErrorForField('password', errors)">
-                            <el-input v-model="form.password" placeholder="Password"  type="password"
+                            <el-input v-model="form.password" placeholder="Password" type="password"
                                 ref="loginInput"></el-input>
                         </el-form-item>
                         <el-form-item class="form-group common" prop="confirmPassword"
                             :error="getErrorForField('confirmPassword', errors)">
                             <el-input v-model="form.confirmPassword" placeholder="Confirm password" type="password"
-                                 ref="loginInput"></el-input>
+                                ref="loginInput"></el-input>
                         </el-form-item>
                         <!-- <div class="form-group common"><input name="email" id="form-control" class="form-control"
                             type="text" placeholder="Email address" v-model="form.email"></div>
@@ -425,6 +423,9 @@
     </div>
 </template>
 <script>
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { initializeApp } from 'firebase/app';
+
 export default {
     data: function () {
         const customValidator = (rule, value, callback) => {
@@ -486,6 +487,13 @@ export default {
             errors: []
         }
     },
+    mounted() {
+        var config = {
+            apiKey: "AIzaSyCiGFiUBcj_TD0sGgwujcTzD1lPJvTyHpw",
+            authDomain: "genial-core-254407.firebaseapp.com",
+        };
+        // initializeApp(config);
+    },
     methods: {
         getErrorForField(field, errors) {
             if (!errors && !errors.length) {
@@ -528,6 +536,32 @@ export default {
                 })
             })
 
+        },
+        signWithGoogle() {
+            // const provider = new GoogleAuthProvider();
+
+            // const auth = getAuth();
+            // signInWithPopup(auth, provider)
+            //     .then((result) => {
+            //         console.log(auth, result);
+            //         // This gives you a Google Access Token. You can use it to access the Google API.
+            //         const credential = GoogleAuthProvider.credentialFromResult(result);
+            //         const token = credential.accessToken;
+            //         // The signed-in user info.
+            //         const user = result.user;
+            //         // IdP data available using getAdditionalUserInfo(result)
+            //         // ...
+            //     }).catch((error) => {
+            //         console.log(error)
+            //         // Handle Errors here.
+            //         const errorCode = error.code;
+            //         const errorMessage = error.message;
+            //         // The email of the user's account used.
+            //         const email = error.customData.email;
+            //         // The AuthCredential type that was used.
+            //         const credential = GoogleAuthProvider.credentialFromError(error);
+            //         // ...
+            //     });
         }
     }
 }
