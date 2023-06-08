@@ -4,7 +4,7 @@
             <div class="register-container">
                 <el-form :model="form" :rules="rules" ref="form" label-position="top">
                     <div class="register col-md-6 col-sm-12">
-                        <div id="google-register" class="text-center"><button type="button" class="w-100"
+                        <div id="google-register" @click="signWithGoogle" class="text-center"><button type="button" class="w-100"
                                 style="background-color: rgb(255, 255, 255); display: inline-flex; align-items: center; color: rgba(0, 0, 0, 0.54); box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 2px 0px, rgba(0, 0, 0, 0.24) 0px 0px 1px 0px; padding: 0px; border-radius: 2px; border: 1px solid transparent; font-size: 14px; font-weight: 500; font-family: Roboto, sans-serif;">
                                 <div
                                     style="margin-right: 10px; background: rgb(255, 255, 255); padding: 10px; border-radius: 2px;">
@@ -26,7 +26,7 @@
                                         </g>
                                     </svg>
                                 </div><span style="padding: 10px 10px 10px 0px; font-weight: 500;"
-                                    @click="signWithGoogle">Sign up with
+                                    >Sign up with
                                     Google</span>
                             </button></div>
                         <div class="w-100 text-center mt-3 mb-3">
@@ -492,7 +492,7 @@ export default {
             apiKey: "AIzaSyCiGFiUBcj_TD0sGgwujcTzD1lPJvTyHpw",
             authDomain: "genial-core-254407.firebaseapp.com",
         };
-        // initializeApp(config);
+        initializeApp(config);
     },
     methods: {
         getErrorForField(field, errors) {
@@ -538,30 +538,31 @@ export default {
 
         },
         signWithGoogle() {
-            // const provider = new GoogleAuthProvider();
+            console.log(2222)
+            const provider = new GoogleAuthProvider();
 
-            // const auth = getAuth();
-            // signInWithPopup(auth, provider)
-            //     .then((result) => {
-            //         console.log(auth, result);
-            //         // This gives you a Google Access Token. You can use it to access the Google API.
-            //         const credential = GoogleAuthProvider.credentialFromResult(result);
-            //         const token = credential.accessToken;
-            //         // The signed-in user info.
-            //         const user = result.user;
-            //         // IdP data available using getAdditionalUserInfo(result)
-            //         // ...
-            //     }).catch((error) => {
-            //         console.log(error)
-            //         // Handle Errors here.
-            //         const errorCode = error.code;
-            //         const errorMessage = error.message;
-            //         // The email of the user's account used.
-            //         const email = error.customData.email;
-            //         // The AuthCredential type that was used.
-            //         const credential = GoogleAuthProvider.credentialFromError(error);
-            //         // ...
-            //     });
+            const auth = getAuth();
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    console.log(auth, result);
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    const credential = GoogleAuthProvider.credentialFromResult(result);
+                    const token = credential.accessToken;
+                    // The signed-in user info.
+                    const user = result.user;
+                    // IdP data available using getAdditionalUserInfo(result)
+                    // ...
+                }).catch((error) => {
+                    console.log(error)
+                    // Handle Errors here.
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    // The email of the user's account used.
+                    const email = error.customData.email;
+                    // The AuthCredential type that was used.
+                    const credential = GoogleAuthProvider.credentialFromError(error);
+                    // ...
+                });
         }
     }
 }
