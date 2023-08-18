@@ -98,7 +98,7 @@
                                         <div class="shape-options">
                                             <button class="shape" @click="changeQrLogo(item)"
                                                 :class="{ 'active': item.active }" v-for="item in qr_logos" :key="item.id">
-                                                <img :src="item.src">
+                                                <img :src="item.src" :id="item.id">
                                             </button>
                                         </div>
                                     </div>
@@ -392,8 +392,8 @@
                                                 </svg></div>
                                         </div>
                                     </div>
-                                    <img :src="generatedCodeSrc" v-if="showGeneratedCode" class="canvas-image-preview" alt="free qr code"
-                                        height="auto">
+                                    <canvas id="canvas_qr_code" class="canvas-image-preview" alt="free qr code"
+                                        height="400" width="400"></canvas>
                                 </picture>
                             </div>
                         </div>
@@ -447,15 +447,16 @@ export default {
         generatedCodeSrc: function () {
             return this.$store.state.qrcodeSrc
         },
-        showGeneratedCode: function() {
-            return this.$store.state.showGeneratedCode;
-        }
+        // showGeneratedCode: function() {
+        //     return this.$store.state.showGeneratedCode;
+        // }
     },
     data() {
         return {
             step_one_tip: '',
             qrcode_style: 'Pattern',
             qrcode_pattern: '',
+            showGeneratedCode: true,
             qr_patterns: [
                 {
                     id: 1,
@@ -832,6 +833,7 @@ export default {
             this.qrcode_logo = item.id;
             this.qr_logos.forEach((o) => (o.active = false));
             item.active = true;
+            this.generateQrcode('http://www.baidu.com', $(`#${item.id}`)[0])
         },
         changeQrFrame(item) {
             if (item.active) return;
@@ -844,9 +846,55 @@ export default {
             this.qrcode_eye = item.id;
             this.qr_eyes.forEach((o) => (o.active = false));
             item.active = true;
+        },
+        generateQrcode(text, image) {
+            this.showGeneratedCode = false;
+            const option = {
+                // render method: 'canvas', 'image' or 'div'
+                render: 'canvas',
+                // version range somewhere in 1 .. 40
+                minVersion: 1,
+                maxVersion: 40,
+                // error correction level: 'L', 'M', 'Q' or 'H'
+                ecLevel: 'H',
+                // offset in pixel if drawn onto existing canvas
+                left: 0,
+                top: 0,
+                // size in pixel
+                size: 200,
+                // code color or image element
+                fill: '#000',
+                // background color or image element, null for transparent background
+                background: null,
+                // content
+                text,
+                // corner radius relative to module width: 0.0 .. 0.5
+                radius: 0,
+                // quiet zone in modules
+                quiet: 0,
+                // modes
+                // 0: normal
+                // 1: label strip
+                // 2: label box
+                // 3: image strip
+                // 4: image box
+                mode: 4,
+                mSize: 0.3,
+                mPosX: 0.5,
+                mPosY: 0.5,
+                label: 'no label',
+                fontname: 'sans',
+                fontcolor: '#000',
+                image//$("#img-buffer")[0]
+            }
+            $("#canvas_qr_code").empty().qrcode(option);
+            this.showGeneratedCode = true;
         }
     },
     mounted() {
+        this.$EventBus.$on('generateQr', (text) => {
+            this.generateQrcode(text);
+        })
     }
 };
 </script>

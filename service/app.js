@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded())
 
 app.use(function(req, res, next) {
-    if (['/api/login', '/api/resetPassword', '/api/register'].includes(req.url)) {
+    if (['/api/login', '/api/thirdLogin', '/api/resetPassword', '/api/register'].includes(req.url)) {
         return next();
     }
     console.log(22222)

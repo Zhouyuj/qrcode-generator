@@ -103,7 +103,7 @@ router.post('/register', (req, res) => {
 
 });
 
-//查找用户接口
+//登录
 router.post('/login', (req, res) => {
     var sql_name = $sql.user.select_name;
     // var sql_password = $sql.user.select_password;
@@ -129,6 +129,26 @@ router.post('/login', (req, res) => {
             res.send({ ...obj, code: 200 })
         }
     })    
+});
+// 第三方登录
+router.post('/thirdLogin', (req, res) => {
+    var params = req.body; 
+
+    var obj = {
+        token: jsonwebtoken.sign({ user: 'sql_name' }, JWT_SECRET),
+        info: {
+            email: params.email,
+            username: params.username,
+            thirdLogin: true
+        }
+    }
+    res.send({ ...obj, code: 200 })
+});
+
+// 主界面进行刷新时，调用接口验证token
+router.post('/checkToken', (req, res) => {
+
+    res.send({ msg: '验证成功', code: 200 })
 });
 
 //获取用户信息

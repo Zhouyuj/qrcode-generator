@@ -30,7 +30,7 @@
                                             My Account<i class="el-icon-arrow-down el-icon--right"></i>
                                         </span>
                                         <el-dropdown-menu slot="dropdown">
-                                            <el-dropdown-item command="change">修改密码</el-dropdown-item>
+                                            <el-dropdown-item command="change" v-if="!isThirdLogged">修改密码</el-dropdown-item>
                                             <el-dropdown-item command="logout">退出</el-dropdown-item>
                                         </el-dropdown-menu>
                                     </el-dropdown>
@@ -82,6 +82,9 @@ export default {
         }
     },
     computed: {
+        isThirdLogged() {
+            return this.$store.state.isThirdLogged;
+        },  
         isLogged() {
             return this.$store.state.isLogged;
         },

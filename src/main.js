@@ -10,6 +10,12 @@ import SIdentify from './components/page/Identify';    //自定义组件
 // import "babel-polyfill";
 import store from './store/index'
 import i18n from './assets/language';
+// 引入第一步创建好的 EventBus
+import EventBus from './utils/EventBus'
+import './utils/jquery-qrcode'
+
+// 这个方式可以在任何组件里直接用 this.$EventBus 调用
+Vue.prototype.$EventBus = EventBus;
 
 Vue.component("SIdentify", SIdentify);
 Vue.use(ElementUI);
@@ -70,7 +76,6 @@ instance.interceptors.response.use(
 
 Vue.prototype.$http = instance;
 
-// Vue.use(axios);
 new Vue({
     store,
     router,

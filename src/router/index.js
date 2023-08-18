@@ -61,7 +61,15 @@ export default new Router({
         },
         {
             path: '/index',
-            component: resolve => require(['../components/page/main/Main.vue'], resolve)
+            component: resolve => require(['../components/page/main/Main.vue'], resolve),
+            // beforeEnter(to, from, next) {
+            //     var token = localStorage.getItem('token');
+            //     if (token) {
+
+            //     } else {
+            //         window.location.href = "/login";
+            //     }
+            // }
         },
     ],
     mode: 'history'

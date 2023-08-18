@@ -214,39 +214,8 @@ export default {
         },
         generateCode() {
             this.$store.commit('setShowGeneratedCode', false);
-            this.$http.post('/generateCode', {
-
-"size": 500,
-
-"colorDark": "rgb(5,64,128)",
-
-"logo": "scan_me.png",
-
-"eye_outer": "eyeOuter2",
-
-"eye_inner": "eyeInner1",
-
-"qrData": "pattern0",
-
-"backgroundColor": "rgb(255,255,255)",
-
-"transparentBkg": false,
-
-"qrCategory": "url",
-
-"text": "https://www.baidu.com"
-
-}).then(r => {
-                console.log(r)
-                // TODO: 判断-1
-                var data = r.data.data;
-                if (data) {
-                    this.$store.commit('setQrcodeSrc', `data:image/png;base64,${data}`);
-                    this.$store.commit('setShowGeneratedCode', true);
-                }
-            }).finally(() => {
-
-            })
+            
+            this.$EventBus.$emit('generateQr', 'http://www.baidu.com')
         }
     },
 };
