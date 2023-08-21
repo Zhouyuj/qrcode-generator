@@ -34,11 +34,11 @@ export default {
         vQrcodeTwo
     },
     mounted() {
-        this.$http.post('/checkToken').then(r => {
+        // this.$http.post('/checkToken').then(r => {
             
-        }).catch(e => {
+        // }).catch(e => {
             
-        })
+        // })
     }
 }
 </script>

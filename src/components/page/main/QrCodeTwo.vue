@@ -457,6 +457,7 @@ export default {
             qrcode_style: 'Pattern',
             qrcode_pattern: '',
             showGeneratedCode: true,
+            url: '',
             qr_patterns: [
                 {
                     id: 1,
@@ -833,7 +834,7 @@ export default {
             this.qrcode_logo = item.id;
             this.qr_logos.forEach((o) => (o.active = false));
             item.active = true;
-            this.generateQrcode('http://www.baidu.com', $(`#${item.id}`)[0])
+            this.generateQrcode(this.url, $(`#${item.id}`)[0])
         },
         changeQrFrame(item) {
             if (item.active) return;
@@ -887,12 +888,17 @@ export default {
                 fontcolor: '#000',
                 image//$("#img-buffer")[0]
             }
+            const canvas = document.getElementById("canvas_qr_code");
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
             $("#canvas_qr_code").empty().qrcode(option);
             this.showGeneratedCode = true;
         }
     },
     mounted() {
         this.$EventBus.$on('generateQr', (text) => {
+            this.url = text;
             this.generateQrcode(text);
         })
     }

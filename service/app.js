@@ -12,11 +12,17 @@ var cors = require('cors')
 
 app.use(cors())
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded())
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded())
+
+// app.use(express.json({limit: '50mb'}));
+// app.use(express.urlencoded({limit: '50mb'}));
 
 app.use(function(req, res, next) {
-    if (['/api/login', '/api/thirdLogin', '/api/resetPassword', '/api/register'].includes(req.url)) {
+    if (['/api/login', '/api/thirdLogin', '/api/resetPassword', '/api/register', '/api/uploadFile'].includes(req.url)) {
         return next();
     }
     console.log(22222)

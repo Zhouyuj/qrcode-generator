@@ -1,3 +1,4 @@
+const fs = require('fs');
 const jsonwebtoken = require('jsonwebtoken');
 var models = require('../db/db');
 var express = require('express');
@@ -7,6 +8,12 @@ var $sql = require('../db/sqlMap');
 const nodemailer = require("nodemailer");
 const multiparty = require("multiparty");
 var smtpTransport = require('nodemailer-smtp-transport');
+const COS = require('cos-nodejs-sdk-v5');
+
+const cos = new COS({
+    SecretId: 'AKIDkKfMxIVHwKUO7du82kDdpJajgP7ct423',
+    SecretKey: 'yhBPDoUwe8NNAj3C6UhiU0XsxqdCW8be'
+});
 
 const JWT_SECRET =
     "goK!pusp6ThEdURUtRenOwUhAsWUCLheBazl!uJLPlS8EbreWLdrupIwabRAsiBu";
@@ -300,6 +307,37 @@ router.post('/resetPassword', (req, res) => {
         }
     })
 });
+
+router.post('/uploadFile', (req, res) => {
+    const filename = req.body.name;
+    console.log(req.body)
+    
+    cos.putObject({
+        Bucket: 'test-1301682364', /* 必须 */
+        Region: 'ap-beijing',    /* 必须 */
+        Key: filename,              /* 必须 */
+        StorageClass: 'STANDARD',
+        Body: fs.createReadStream(req.body.data), // 上传文件对象
+        onProgress: function(progressData) {
+            console.log(JSON.stringify(progressData));
+        }
+    }, function(err, data) {
+        console.log(err || data);
+    });
+    
+
+    // cos.postObject({
+    //     Bucket: 'test-1301682364',
+    //     Region: 'ap-beijing',
+    //     Key: filename,
+    //     FilePath: tmpFilePath, // wx.chooseImage 选择文件得到的 tmpFilePath
+    //     onProgress: function (info) {
+    //         console.log(JSON.stringify(info));
+    //     }
+    // }, function (err, data) {
+    //     console.log(err || data);
+    // });
+})
 
 
 module.exports = router;

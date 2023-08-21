@@ -2,7 +2,9 @@
     <div class="col-md-12 settings mb-4">
         <div class="meta-data">
             <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-                <div><label class="first-step-label flex-shrink-0">{{$t("one.stepOne")}}</label><span>{{$t("one.enterUrl")}}</span></div>
+                <div><label
+                        class="first-step-label flex-shrink-0">{{ $t("one.stepOne") }}</label><span>{{ $t("one.enterUrl") }}</span>
+                </div>
                 <!-- <div class="guide-link d-flex align-items-center flex-wrap"><i class="qr-exclamation-circle mr-1"></i>Learn
                     how to track data with <a href="/how-do-dynamic-qr-codes-work" class="link ml-1" target="_blank">dynamic
                         QR codes</a></div> -->
@@ -10,7 +12,7 @@
             <div class="url form-group"
                 v-if="['URL', 'Google Form', 'Facebook', 'Youtube', 'Instagram', 'Pinterest'].includes(activeQrType)">
                 <div class="d-flex flex-column"><input name="url" class="err form-control" type="text"
-                        placeholder="https://www.mywebsite.com" value="">
+                        placeholder="https://www.mywebsite.com" value="" v-model="formData.url">
                     <!-- <div class="extract-url">
                         <div class="file-wrapper"><input class="form-control hidden" type="text" readonly="" value=""><input
                                 class="hidden" type="file" accept=".png,.jpeg,.jpg,.svg" value="">
@@ -22,39 +24,42 @@
             <div class="vCard form-group" v-if="activeQrType === 'vCard'">
                 <div class="row  vCard-form">
                     <div class="row v-card-detail px-1">
-                        <div class="col-md-6 mb-3"><label for="qrcodeVcardName">{{$t("one.name")}}</label><input
-                                name="qrcodeVcardName" class="form-control" type="text" placeholder="Your Name"
-                                ><input name="qrcodeVcardWebsite" class="form-control mt-2" type="text"
+                        <div class="col-md-6 mb-3"><label for="qrcodeVcardName">{{ $t("one.name") }}</label><input
+                                name="qrcodeVcardName" class="form-control" type="text" placeholder="Your Name"><input
+                                name="qrcodeVcardWebsite" class="form-control mt-2" type="text"
                                 placeholder="Your Website (https://)" value=""></div>
-                        <div class="col-md-6 mb-3"><label for="qrcodeVcardOrganization">{{$t("one.company")}}</label><input
-                                name="qrcodeVcardOrganization" class="form-control" type="text" placeholder="Company Name"
-                                ><input name="qrcodeVcardTitle" class="form-control mt-2" type="text"
-                                placeholder="Position" value=""></div>
-                        <div class="col-md-6 mb-3"><label class="w-100" for="qrcodeVcardPhoneWork">{{$t("one.contact")}}</label>
+                        <div class="col-md-6 mb-3"><label for="qrcodeVcardOrganization">{{ $t("one.company") }}</label><input
+                                name="qrcodeVcardOrganization" class="form-control" type="text"
+                                placeholder="Company Name"><input name="qrcodeVcardTitle" class="form-control mt-2"
+                                type="text" placeholder="Position" value=""></div>
+                        <div class="col-md-6 mb-3"><label class="w-100"
+                                for="qrcodeVcardPhoneWork">{{ $t("one.contact") }}</label>
                             <div class="v-card-block"><input name="qrcodeVcardPhoneMobile" class="form-control" type="text"
-                                    placeholder="Mobile Phone" ><input name="qrcodeVcardPhoneWork"
-                                    class="form-control" type="text" placeholder="Mobile Phone (Work)" value=""></div>
+                                    placeholder="Mobile Phone"><input name="qrcodeVcardPhoneWork" class="form-control"
+                                    type="text" placeholder="Mobile Phone (Work)" value=""></div>
                             <div class="v-card-block mt-2"><input name="qrcodeVcardPhonePrivate" class="form-control"
                                     type="text" placeholder="Phone" value=""><input name="qrcodeVcardFax"
                                     class="form-control" type="text" placeholder="Fax" value=""></div>
                             <div class="v-card-block mt-2"><input name="qrcodeVcardEmail" class="form-control" type="text"
                                     placeholder="Your Email (username@email.com)" value=""></div>
                         </div>
-                        <div class="col-md-6 mb-3"><label class="w-100" for="qrcodeVcardStreet">{{$t("one.address")}}</label>
+                        <div class="col-md-6 mb-3"><label class="w-100"
+                                for="qrcodeVcardStreet">{{ $t("one.address") }}</label>
                             <div class="v-card-block"><input name="qrcodeVcardCountry" class="form-control" type="text"
-                                    placeholder="Country" ><input name="qrcodeVcardState" class="form-control"
-                                    type="text" placeholder="State"></div>
+                                    placeholder="Country"><input name="qrcodeVcardState" class="form-control" type="text"
+                                    placeholder="State"></div>
                             <div class="v-card-block mt-2"><input name="qrcodeVcardStreet" class="form-control" type="text"
-                                    placeholder="Street" ></div>
+                                    placeholder="Street"></div>
                             <div class="v-card-block mt-2"><input name="qrcodeVcardCity" class="form-control" type="text"
                                     placeholder="City" value=""><input name="qrcodeVcardZipcode" class="form-control"
-                                    type="text" placeholder="Zipcode" ></div>
+                                    type="text" placeholder="Zipcode"></div>
                         </div>
                         <div class="col-12 vCard-container">
-                            <div class="w-100"><label for="qrcodeVcardAdditionalInfo">{{$t("one.personDesc")}}</label><textarea name="qrcodeVcardAdditionalInfo" rows="5"
-                                    class="form-control" type="text"
+                            <div class="w-100"><label
+                                    for="qrcodeVcardAdditionalInfo">{{ $t("one.personDesc") }}</label><textarea
+                                    name="qrcodeVcardAdditionalInfo" rows="5" class="form-control" type="text"
                                     placeholder="Give a brief description of yourself"></textarea></div>
-                           
+
                         </div>
                     </div>
                 </div>
@@ -65,11 +70,12 @@
                         <div class="upload-container">
                             <div class="upload-category-file">
                                 <div class="file-wrapper"><input class="form-control hidden" type="text" readonly=""
-                                        value=""><input class="hidden" type="file"
+                                        value=""><input class="hidden" ref="upload_file_input" type="file" @change="uploadFile"
                                         accept=".png,.mp4,.pdf,.jpeg,.jpg,.xlsx,.docx" value="">
-                                    <div class="btn-upload btn">
+                                    <div class="btn-upload btn" @click="openFileWin">
                                         <div class="d-flex align-items-center">
-                                            <div class="icon-wrapper mr-2"><i class="qr-plus-circle"></i></div><span>{{$t("one.uploadFile")}}</span>
+                                            <div class="icon-wrapper mr-2"><i class="qr-plus-circle"></i></div>
+                                            <span>{{ $t("one.uploadFile") }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +83,7 @@
                         </div>
                     </div>
                     <div class="description-section">
-                        <div class="supported"><span>{{$t("one.supportedFormats")}}</span>
+                        <div class="supported"><span>{{ $t("one.supportedFormats") }}</span>
                             <div class="supported-list">
                                 <div class="supported-item">PDF</div>
                                 <div class="supported-item">JPEG</div>
@@ -106,7 +112,7 @@
             </div>
             <div class="row wifi" v-if="activeQrType === 'Wi-Fi'">
                 <div class="col-md-4 form-group d-flex flex-column justify-content-between"><label class="text-bold"
-                        for="wifiType">{{$t("one.type")}}</label>
+                        for="wifiType">{{ $t("one.type") }}</label>
                     <div class=" css-b62m3t-container"><span id="react-select-3-live-region"
                             class="css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false"
                             aria-relevant="additions text" class="css-7pg0cj-a11yText"></span>
@@ -153,9 +159,9 @@
                         placeholder="Text"></textarea></div>
             </div>
             <div class="form-group row url" v-if="activeQrType === 'App stores'">
-                <div class="col-md-12 mb-3"><label class="text-bold" for="appleStore">{{$t("one.urlForIOS")}}</label><input
+                <div class="col-md-12 mb-3"><label class="text-bold" for="appleStore">{{ $t("one.urlForIOS") }}</label><input
                         name="appleStore" class="err form-control" type="text" placeholder="https://" value=""></div>
-                <div class="col-md-12"><label class="text-bold" for="googleStore">{{$t("one.urlForAndroid")}}</label><input
+                <div class="col-md-12"><label class="text-bold" for="googleStore">{{ $t("one.urlForAndroid") }}</label><input
                         name="googleStore" class="err form-control" type="text" placeholder="https://" value=""></div>
             </div>
             <div class="qr-type-block"
@@ -181,7 +187,7 @@
             </div>
             <div class="flex flex-wrap qr-generate-block"><button id="generate-qr-code"
                     class="d-flex justify-content-center align-items-center btn btn-qr2 col-sm-12 col-md-4 col-lg-3"
-                    @click="generateCode">{{$t("one.genQRBtn")}}</button>
+                    @click="generateCode">{{ $t("one.genQRBtn") }}</button>
                 <!-- <div class="guide-link mt-3 mt-md-0 col-sm-12 col-md-8 col-lg-9 pl-0 pl-md-3">
                     <div class="d-md-flex align-items-center h-100"><i class="qr-exclamation-circle mr-1"></i>We recommend
                         creating a dynamic QR code if you want to track performance and edit data even after printing.</div>
@@ -201,7 +207,10 @@ export default {
     },
     data() {
         return {
-            step_one_tip: ''
+            step_one_tip: '',
+            formData: {
+                url: ''
+            }
         };
     },
     methods: {
@@ -212,10 +221,42 @@ export default {
             this.$store.commit('setQrcodeType', item.label);
             console.log(this.$store)
         },
+        async uploadFile(e) {
+            e.preventDefault();
+            const result = await this.processReadFile(e);
+            this.processFile(result.name, result.data)
+        },  
+        processReadFile(e) {
+            return new Promise((res, rej) => {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    console.log(this.result)
+                    // var arrayBuffer = this.result;
+                    // var array = new Uint8Array(arrayBuffer);
+                    // binaryString = String.fromCharCode.apply(null, array);
+                    // console.log(binaryString);
+                    res({name: e.target.files[0].name, data: this.result})
+                }
+                reader.readAsDataURL(e.target.files[0]);
+            })
+            
+        },
+        processFile(name, binaryString){
+                this.$http.post('/uploadFile', {
+                        name,
+                        data: binaryString
+                    }).then(r => {
+                        console.log(r);
+                    });
+        },  
+        openFileWin() {
+            console.log(this.$refs['upload_file_input'])
+            this.$refs['upload_file_input'].click();
+        },  
         generateCode() {
             this.$store.commit('setShowGeneratedCode', false);
-            
-            this.$EventBus.$emit('generateQr', 'http://www.baidu.com')
+
+            this.$EventBus.$emit('generateQr', this.formData.url)
         }
     },
 };
@@ -568,5 +609,4 @@ input[type=radio] {
     border-radius: 4px;
     padding: 18px 16px;
     font-size: 14px;
-}
-</style>
+}</style>
