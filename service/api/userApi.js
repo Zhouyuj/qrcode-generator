@@ -9,6 +9,7 @@ const nodemailer = require("nodemailer");
 const multiparty = require("multiparty");
 var smtpTransport = require('nodemailer-smtp-transport');
 const COS = require('cos-nodejs-sdk-v5');
+const axios = require('axios');
 
 const cos = new COS({
     SecretId: 'AKIDkKfMxIVHwKUO7du82kDdpJajgP7ct423',
@@ -36,45 +37,43 @@ var dateStr = function (str) {
 }
 
 router.post('/generateCode', async (req, res) => {
-    var body = req.body;
 
-    if (!req.headers.authorization) {
-        return res.status(401).json({ error: "Not Authorized" });
-    }
+    var data = req.body;
+    console.log(data)
+    // if (!req.headers.authorization) {
+    //     return res.status(401).json({ error: "Not Authorized" });
+    // }
 
     // Bearer <token>>
-    const authHeader = req.headers.authorization;
+    // const authHeader = req.headers.authorization;
 
-    const token = authHeader.split(" ")[1];
-    console.log(token)
-
-    try {
-        // Verify the token is valid
-        const { user } = jsonwebtoken.verify(token, JWT_SECRET);
-        // TODO: 进行二维码生成操作
-        return res.status(200).json({
-            message: `Congrats ${user}! You can now accesss the super secret resource`,
-        });
-    } catch (error) {
-        console.log(JSON.str(error))
-        return res.status(401).json({ error: "Not Authorized" });
-    }
+    // const token = authHeader.split(" ")[1];
+    // console.log(token)
 
     // try {
-    //   var result = await fetch('https://qrtiger.com/api/qr/static', {
-    //     method: 'POST',
-    //     body,
+    //     // Verify the token is valid
+    //     const { user } = jsonwebtoken.verify(token, JWT_SECRET);
+    //     // TODO: 进行二维码生成操作
+    //     return res.status(200).json({
+    //         message: `Congrats ${user}! You can now accesss the super secret resource`,
+    //     });
+    // } catch (error) {
+    //     console.log(JSON.str(error))
+    //     return res.status(401).json({ error: "Not Authorized" });
+    // }
 
-    //         headers: {Authorization: 'Bearer 8d421250-ddb5-11ed-b589-7b17f4c12f74'}
-
-
-    //     })
-    //     var json = await result.json();  
-    //     jsonWrite(res, json);
-    // } catch(e) {
-    //     console.log(JSON.stringify(e))
-    //     res.send('-1')
-    // } 
+    // const jsonData = {"data":"https://www.baidu.com","config":{"body":"round","eye":"frame7","eyeBall":"ball0","erf1":[],"erf2":[],"erf3":[],"brf1":[],"brf2":[],"brf3":[],"bodyColor":"#D61919","bgColor":"#110F0F","eye1Color":"#D61919","eye2Color":"#D61919","eye3Color":"#D61919","eyeBall1Color":"#D61919","eyeBall2Color":"#D61919","eyeBall3Color":"#D61919","gradientColor1":"","gradientColor2":"","gradientType":"linear","gradientOnEyes":"true","logo":"","logoMode":"default"},"size":1000,"download":"imageUrl","file":"svg"};
+    axios.post('https://api.qrcode-monkey.com//qr/custom', data).then(r => {
+        if (r.data) {
+            console.log('success::', r)
+            return res.status(200).json({
+                imageUrl: r.data.imageUrl,
+            });
+        }
+    }).catch(e => {
+        console.log('error::::',e);
+        return res.status(400).json({ error: "二维码生成错误!" });
+    })
 
 })
 

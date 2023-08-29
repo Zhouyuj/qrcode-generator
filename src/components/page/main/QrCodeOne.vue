@@ -112,57 +112,68 @@
             </div>
             <div class="row wifi" v-if="activeQrType === 'Wi-Fi'">
                 <div class="col-md-4 form-group d-flex flex-column justify-content-between"><label class="text-bold"
-                        for="wifiType">{{ $t("one.type") }}</label>
+                        for="wifiType">type</label>
                     <div class=" css-b62m3t-container"><span id="react-select-3-live-region"
                             class="css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false"
                             aria-relevant="additions text" class="css-7pg0cj-a11yText"></span>
                         <div class=" css-1s2u09g-control">
                             <div class=" css-1d8n9bt">
-                                <div class=" css-14el2xx-placeholder" id="react-select-3-placeholder">Please select</div>
+                                <!-- <div class="col-md-4 form-group d-flex flex-column justify-content-between"> -->
+                                    <select v-model="wifi.encry" style="height: 38px;
+                                        border-radius: 3px;
+                                        border: 1px solid #ccc;
+                                        width: 250px;">
+                                        <option>WPA</option>
+                                        <option>WEP</option>
+                                        <option>No encryption</option>
+                                    </select> 
+                                <!-- </div> -->
+                                
+                                <!-- <div class=" css-14el2xx-placeholder" id="react-select-3-placeholder">Please select</div>
                                 <div class=" css-ackcql" data-value=""><input class="" autocapitalize="none"
                                         autocomplete="off" autocorrect="off" id="react-select-3-input" spellcheck="false"
                                         tabindex="0" type="text" aria-autocomplete="list" aria-expanded="false"
                                         aria-haspopup="true" role="combobox" aria-describedby="react-select-3-placeholder"
                                         value=""
                                         style="color: inherit; background: 0px center; opacity: 1; width: 100%; grid-area: 1 / 2 / auto / auto; font: inherit; min-width: 2px; border: 0px; margin: 0px; outline: 0px; padding: 0px;">
-                                </div>
+                                </div> -->
                             </div>
-                            <div class=" css-1wy0on6"><span class=" css-1okebmr-indicatorSeparator"></span>
+                            <!-- <div class=" css-1wy0on6"><span class=" css-1okebmr-indicatorSeparator"></span>
                                 <div class=" css-tlfecz-indicatorContainer" aria-hidden="true"><svg height="20" width="20"
                                         viewBox="0 0 20 20" aria-hidden="true" focusable="false" class="css-8mmkcg">
                                         <path
                                             d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z">
                                         </path>
                                     </svg></div>
-                            </div>
-                        </div><input name="wifiType" type="hidden" value="">
+                            </div> -->
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4 form-group d-flex flex-column justify-content-between"><label class="text-bold"
                         for="wifiSsid">SSID <span class="wifi-guide">(Check the bottom or side of your
-                            router)</span></label><input name="wifiSsid" class="err form-control" type="text" placeholder=""
+                            router)</span></label><input name="wifiSsid" v-model="wifi.ssid" class="err form-control" type="text" placeholder=""
                         value=""></div>
                 <div class="col-md-4 form-group d-flex flex-column justify-content-between"><label class="text-bold"
                         for="wifiPassword">Password</label><input name="wifiPassword" class="form-control" type="text"
-                        placeholder="" value=""></div>
+                        placeholder="" value="" v-model="wifi.psd"></div>
             </div>
             <div class="form-group row url" v-if="activeQrType === 'Email'">
                 <div class="col-md-12 mb-2"><label class="text-bold" for="email">Email</label><input name="email"
-                        class="err form-control" type="text" placeholder="Your Email (username@email.com)" value=""></div>
+                        class="err form-control" type="text" placeholder="Your Email (username@email.com)" value="" v-model="email.email"></div>
                 <div class="col-md-12 mb-2"><label class="text-bold" for="subject">Subject</label><input name="subject"
-                        class="err form-control" type="text" value=""></div>
+                        class="err form-control" type="text" value="" v-model="email.subject"></div>
                 <div class="col-md-12"><label class="text-bold" for="message">Message</label><textarea name="message"
-                        rows="5" class="err form-control" type="text"></textarea></div>
+                        rows="5" class="err form-control" type="text" v-model="email.message"></textarea></div>
             </div>
             <div class="form-group row url" v-if="activeQrType === 'Text'">
                 <div class="col-md-12"><textarea name="text" class="err form-control" type="text"
-                        placeholder="Text"></textarea></div>
+                        placeholder="Text" v-model="text"></textarea></div>
             </div>
             <div class="form-group row url" v-if="activeQrType === 'App stores'">
                 <div class="col-md-12 mb-3"><label class="text-bold" for="appleStore">{{ $t("one.urlForIOS") }}</label><input
-                        name="appleStore" class="err form-control" type="text" placeholder="https://" value=""></div>
+                        name="appleStore" class="err form-control" type="text" placeholder="https://" value="" v-model="appStore.android"></div>
                 <div class="col-md-12"><label class="text-bold" for="googleStore">{{ $t("one.urlForAndroid") }}</label><input
-                        name="googleStore" class="err form-control" type="text" placeholder="https://" value=""></div>
+                        name="googleStore" class="err form-control" type="text" placeholder="https://" value="" v-model="appStore.ios"></div>
             </div>
             <div class="qr-type-block"
                 v-if="['URL', 'Google Form', 'Facebook', 'Youtube', 'Instagram', 'Pinterest'].includes(activeQrType)">
@@ -187,7 +198,9 @@
             </div>
             <div class="flex flex-wrap qr-generate-block"><button id="generate-qr-code"
                     class="d-flex justify-content-center align-items-center btn btn-qr2 col-sm-12 col-md-4 col-lg-3"
-                    @click="generateCode">{{ $t("one.genQRBtn") }}</button>
+                    @click="generateCode" :disabled="!(formData.url || (activeQrType == 'File' && fileUrl) ||
+                     (activeQrType == 'Wi-Fi' && wifi.encry) || (activeQrType == 'Email' && email.email) ||
+                     (activeQrType == 'Text' && text) || (activeQrType == 'App stores') && appStore.android)">{{ $t("one.genQRBtn") }}</button>
                 <!-- <div class="guide-link mt-3 mt-md-0 col-sm-12 col-md-8 col-lg-9 pl-0 pl-md-3">
                     <div class="d-md-flex align-items-center h-100"><i class="qr-exclamation-circle mr-1"></i>We recommend
                         creating a dynamic QR code if you want to track performance and edit data even after printing.</div>
@@ -198,6 +211,7 @@
 </template>
 
 <script>
+import COS from 'cos-js-sdk-v5';
 export default {
     components: {},
     computed: {
@@ -205,58 +219,109 @@ export default {
             return this.$store.state.qrcodeType
         }
     },
+    watch: {
+        activeQrType(args) {
+            console.log(args);
+            this.formData = {
+                url: ''
+            };
+            this.fileUrl = '',
+            this.wifi = {
+                ssid: '',
+                psd: '',
+                encry: ''
+            };
+            this.email = {
+                email: '',
+                subject: '',
+                message: ''
+            };
+            this.appStore = {
+                android: '',
+                ios: ''
+            };
+            this.text = '';
+        }
+    },
     data() {
         return {
             step_one_tip: '',
             formData: {
                 url: ''
-            }
+            },
+            fileUrl: '',
+            wifi: {
+                ssid: '',
+                psd: '',
+                encry: ''
+            },
+            email: {
+                email: '',
+                subject: '',
+                message: ''
+            },
+            appStore: {
+                android: '',
+                ios: ''
+            },
+            text: ''
         };
     },
     methods: {
-        itemClick(item) {
-            if (item.active) return;
-            this.options.forEach((o) => (o.active = false));
-            item.active = true;
-            this.$store.commit('setQrcodeType', item.label);
-            console.log(this.$store)
-        },
         async uploadFile(e) {
             e.preventDefault();
-            const result = await this.processReadFile(e);
-            this.processFile(result.name, result.data)
-        },  
-        processReadFile(e) {
-            return new Promise((res, rej) => {
-                var reader = new FileReader();
-                reader.onload = function() {
-                    console.log(this.result)
-                    // var arrayBuffer = this.result;
-                    // var array = new Uint8Array(arrayBuffer);
-                    // binaryString = String.fromCharCode.apply(null, array);
-                    // console.log(binaryString);
-                    res({name: e.target.files[0].name, data: this.result})
-                }
-                reader.readAsDataURL(e.target.files[0]);
-            })
+            var _this = this;
             
+            var cos = new COS({
+                SecretId: "AKIDkKfMxIVHwKUO7du82kDdpJajgP7ct423",
+                SecretKey: 'yhBPDoUwe8NNAj3C6UhiU0XsxqdCW8be'
+            });
+            cos.uploadFile({
+                Bucket: 'test-1301682364', /* 填写自己的 bucket，必须字段 */
+                Region: 'ap-guangzhou',     /* 存储桶所在地域，必须字段 */
+                Key: `${Date.now() + e.target.files[0].name}`,              /* 存储在桶里的对象键（例如:1.jpg，a/b/test.txt，图片.jpg）支持中文，必须字段 */
+                Body: e.target.files[0], // 上传文件对象
+                // SliceSize: 1024 * 1024 * 5,     /* 触发分块上传的阈值，超过5MB使用分块上传，小于5MB使用简单上传。可自行设置，非必须 */
+                onProgress: function(progressData) {
+                    console.log(JSON.stringify(progressData));
+                }
+            }, function(err, data) {
+                if (err) {
+                    console.log('上传失败', err);
+                } else {
+                    console.log('上传成功', data);
+                    _this.fileUrl =  `https://${data.Location}`;
+                }
+            });
+
         },
-        processFile(name, binaryString){
-                this.$http.post('/uploadFile', {
-                        name,
-                        data: binaryString
-                    }).then(r => {
-                        console.log(r);
-                    });
-        },  
         openFileWin() {
             console.log(this.$refs['upload_file_input'])
             this.$refs['upload_file_input'].click();
         },  
         generateCode() {
             this.$store.commit('setShowGeneratedCode', false);
-
-            this.$EventBus.$emit('generateQr', this.formData.url)
+            if (this.activeQrType === 'File') {
+                this.$EventBus.$emit('generateQr', this.fileUrl);
+            } else if (this.activeQrType === 'Wi-Fi') {
+                // "WIFI:S:2222;T:nopass;P:3333;;"
+                // "WIFI:S:2222;T:WEP;P:3333;;"
+                // "WIFI:S:2222;T:WPA;P:3333;;"
+                const url = `WIFI:S:${this.wifi.ssid};T:${this.wifi.encry};P:${this.wifi.psd};;`;
+                this.$EventBus.$emit('generateQr', url);
+            } else if (this.activeQrType === 'Email') {
+                // "mailto:2222@mai.com?subject=333&body=6666"
+                const url = `mailto:${this.email.email}?subject=${this.email.subject}&body=${this.email.message}`;
+                this.$EventBus.$emit('generateQr', url);
+            } else if (this.activeQrType === 'App stores') {
+                // "mailto:2222@mai.com?subject=333&body=6666"
+                const url = `android:${this.appStore.android}&ios=${this.appStore.ios}`;
+                this.$EventBus.$emit('generateQr', url);
+            } else if (this.activeQrType === 'Text') {
+                this.$EventBus.$emit('generateQr', this.text);
+            } else {
+                this.$EventBus.$emit('generateQr', this.formData.url);
+            }            
         }
     },
 };
