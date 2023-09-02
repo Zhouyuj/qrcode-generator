@@ -39,7 +39,7 @@ var dateStr = function (str) {
 router.post('/generateCode', async (req, res) => {
 
     var data = req.body;
-    console.log(data)
+    // console.log(data)
     // if (!req.headers.authorization) {
     //     return res.status(401).json({ error: "Not Authorized" });
     // }
@@ -63,19 +63,53 @@ router.post('/generateCode', async (req, res) => {
     // }
 
     // const jsonData = {"data":"https://www.baidu.com","config":{"body":"round","eye":"frame7","eyeBall":"ball0","erf1":[],"erf2":[],"erf3":[],"brf1":[],"brf2":[],"brf3":[],"bodyColor":"#D61919","bgColor":"#110F0F","eye1Color":"#D61919","eye2Color":"#D61919","eye3Color":"#D61919","eyeBall1Color":"#D61919","eyeBall2Color":"#D61919","eyeBall3Color":"#D61919","gradientColor1":"","gradientColor2":"","gradientType":"linear","gradientOnEyes":"true","logo":"","logoMode":"default"},"size":1000,"download":"imageUrl","file":"svg"};
-    axios.post('https://api.qrcode-monkey.com//qr/custom', data).then(r => {
+    try {
+        const r = await axios.post('https://api.qrcode-monkey.com//qr/custom', data);
         if (r.data) {
-            console.log('success::', r)
+            console.log('success');
+            const base64 = await download_to_base64('https:' + r.data.imageUrl);
+            console.log(base64)
+            // var base64str = base64_encode('https:' + r.data.imageUrl);
+            // console.log(base64str)
             return res.status(200).json({
-                imageUrl: r.data.imageUrl,
+                imageUrl: base64,
             });
         }
-    }).catch(e => {
+    } catch (e) {
         console.log('error::::',e);
         return res.status(400).json({ error: "二维码生成错误!" });
-    })
-
+    }
 })
+
+async function download_to_base64(url) {
+    console.log(url)
+    const result = await axios.get(url, { responseType: 'arraybuffer' });
+    // console.log(data);
+    const data = "data:" + result.headers["content-type"] + ";base64," + Buffer.from(result.data).toString('base64');
+    return data;
+    //     axios.get(url, function (error, response, body) {
+    //     if (!error && response.statusCode == 200) {
+    //         data = "data:" + response.headers["content-type"] + ";base64," + Buffer.from(body).toString('base64');
+    //         console.log(data);
+    //     }
+    // });
+}
+
+function base64_encode(file) {
+    // read binary data
+    var bitmap = fs.readFileSync(file);
+    // convert binary data to base64 encoded string
+    return new Buffer(bitmap).toString('base64');
+}
+
+async function downloadImage(url, filename) {
+    const response = await axios.get(url, { responseType: 'arraybuffer' });
+  
+    fs.writeFile(filename, response.data, (err) => {
+      if (err) throw err;
+      console.log('Image downloaded successfully!');
+    });
+  }
 
 // 增加用户接口
 router.post('/register', (req, res) => {

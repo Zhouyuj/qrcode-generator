@@ -423,14 +423,14 @@
                                             class="MuiFormControlLabel-root"><span
                                                 class="MuiButtonBase-root MuiIconButton-root jss1 MuiRadio-root MuiRadio-colorSecondary jss2 Mui-checked MuiIconButton-colorSecondary"
                                                 aria-disabled="false"><span class="MuiIconButton-label"><input type="radio"
-                                                        checked="" class="jss4" name="radio-file-type" value="PNG">
+                                                        checked="" class="jss4" name="radio-file-type" value="PNG"  v-model="downloadType">
                                                     
                                                 </span><span class="MuiTouchRipple-root"></span></span><span
                                                 class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body1">PNG</span></label><label
                                             class="MuiFormControlLabel-root"><span
                                                 class="MuiButtonBase-root MuiIconButton-root jss1 MuiRadio-root MuiRadio-colorSecondary MuiIconButton-colorSecondary"
                                                 aria-disabled="false"><span class="MuiIconButton-label"><input type="radio"
-                                                        class="jss4" name="radio-file-type" value="SVG">
+                                                        class="jss4" name="radio-file-type" value="SVG" v-model="downloadType">
                                                 </span><span class="MuiTouchRipple-root"></span></span><span
                                                 class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body1">SVG</span></label>
                                     </div>
@@ -957,6 +957,7 @@ export default {
                     active: false
                 }
             ],
+            downloadType: 'PNG'
         };
     },
     methods: {
@@ -1000,26 +1001,53 @@ export default {
             item.active = true;
             this.generateQrcode(this.url)
         },
+        svgString2Image(svgData, width, height, format, callback) {
+            // set default for format parameter
+            format = format ? format : 'png';
+            // SVG data URL from SVG string
+            // create canvas in memory(not in DOM)
+            var canvas = document.createElement('canvas');
+            // get canvas context for drawing on canvas
+            var context = canvas.getContext('2d');
+            // set canvas size
+            canvas.width = width;
+            canvas.height = height;
+            // create image in memory(not in DOM)
+            var image = new Image();
+            // later when image loads run this
+            image.onload = function () { // async (happens later)
+                // clear canvas
+                context.clearRect(0, 0, width, height);
+                // draw image with SVG data to canvas
+                context.drawImage(image, 0, 0, width, height);
+                // snapshot canvas as png
+                var pngData = canvas.toDataURL('image/' + format);
+                // pass png data URL to callback
+                callback(pngData);
+            }; // end async
+            // start loading SVG data into in memory image
+            image.src = svgData;
+        },
         download(link, picName){
-            let img = new Image()
-            img.setAttribute('crossOrigin', 'Anonymous')
-            img.onload = function(){
-                let canvas = document.createElement('canvas')
-                let context = canvas.getContext('2d')
-                canvas.width = img.width
-                canvas.height = img.height
-                context.drawImage(img, 0, 0, img.width, img.height)
-                let url = canvas.toDataURL('images/png')
+            if (this.downloadType == 'PNG') {
+                this.svgString2Image(link, 600, 600, 'png', function (pngData) {
+                    console.log(pngData)
+                    let a = document.createElement('a')
+                    let event = new MouseEvent('click')
+                    a.download = 'qrcode.png'
+                    a.href = pngData;
+                    a.dispatchEvent(event)
+                })
+            } else {
                 let a = document.createElement('a')
                 let event = new MouseEvent('click')
-                a.download = picName || 'default.png'
-                a.href = url
+                a.download = picName
+                a.href = link;
                 a.dispatchEvent(event)
             }
-            img.src = link + '?v=' + Date.now()
         },
         downQrcode() {
-            this.download(this.imageSrc, 'xxx.svg');
+            this.download(this.imageSrc, 'qrcode.svg');
         },
         generateQrcode(text, image) {
             this.showGeneratedCode = false;
@@ -1078,7 +1106,7 @@ export default {
             console.log(jsonData)
             this.$http.post('/generateCode', jsonData).then(r => {
                 console.log(r)
-                this.imageSrc = `https:${r.data.imageUrl}`;
+                this.imageSrc = `${r.data.imageUrl}`;
                 this.showGeneratedCode = true;
                 // 渲染canvas
                 // const canvas = document.getElementById("canvas_qr_code");
