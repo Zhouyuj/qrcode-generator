@@ -8,19 +8,19 @@
                         <div class="logo-flex"><a href="/"><img src="/static/img/MainHeader/qrtiger_logo.svg"
                                     alt="qr code generator" width="137px" height="42px"></a>
                             <div class="main-menu-mobile"></div>
-                        </div>
+                        </div> -->
                         <div class="menu-flex">
-                            <ul class="menu d-none d-lg-block">
-                                <li class="d-lg-none close"><a class="pointer"><i class="qr-close"></i></a></li>
+                            <ul class="menu d-lg-block">
+                                <!-- <li class="d-lg-none close"><a class="pointer"><i class="qr-close"></i></a></li>
                                 <li><a class="pointer"><span class="underline">Bulk QR</span></a></li>
                                 <li><a class="pointer" target="_blank" href="/api-documentation"><span class="underline">QR
-                                            code API</span></a></li>
+                                            code API</span></a></li> -->
                                 <li><a class="pointer" href="/payment"><span class="underline">Pricing</span></a></li>
-                                <li><a class="pointer"><span class="underline">FAQ</span></a></li>
+                                <!-- <li><a class="pointer"><span class="underline">FAQ</span></a></li>
                                 <li><a class="pointer" target="_blank" href="/blog"><span class="underline">BLOG</span></a>
-                                </li>
+                                </li> -->
                             </ul>
-                        </div> -->
+                        </div>
                         <div class="login-menu">
                             <div class="d-flex align-items-center">
                                 <div class="btn-cover" v-if="isLogged">
@@ -287,5 +287,70 @@ img, svg {
     font-weight: 500px;
     line-height: 0%;
     color: white;
+}
+.header .navigation-bar .cover-header .menu-flex {
+    display: flex;
+    flex: 0.4;
+    align-items: center;
+}
+.header .navigation-bar .cover-header .menu-flex .menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    float: right;
+}
+
+@media (min-width: 992px)
+.d-lg-block {
+    display: block!important;
+}
+
+.d-none {
+    display: none!important;
+}
+dl, ol, ul {
+    margin-top: 0;
+}
+address, dl, ol, ul {
+    margin-bottom: 1rem;
+}
+.header .menu li {
+    display: inline;
+    float: left;
+    position: relative;
+}
+
+@media (min-width: 992px)
+.d-lg-none {
+    display: none!important;
+}
+.close {
+    float: right;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+}
+.header .menu li a {
+    font-size: 14px;
+    padding: 0 8px;
+    line-height: 40px;
+    height: 40px;
+    color: #fff!important;
+    font-family: Manrope;
+}
+
+.header a.pointer {
+    color: #202020;
+}
+.pointer {
+    cursor: pointer;
+}
+a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
 }
 </style>

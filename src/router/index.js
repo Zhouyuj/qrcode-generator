@@ -71,6 +71,14 @@ export default new Router({
             //     }
             // }
         },
+        {
+            path: '/payment',
+            component: resolve => require(['../components/page/main/payment/PaymentSelect.vue'], resolve)
+        },
+        {
+            path: '/purchase',
+            component: resolve => require(['../components/page/main/payment/Purchase.vue'], resolve)
+        },
     ],
     mode: 'history'
 })

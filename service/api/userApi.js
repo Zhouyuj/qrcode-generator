@@ -10,6 +10,7 @@ const multiparty = require("multiparty");
 var smtpTransport = require('nodemailer-smtp-transport');
 const COS = require('cos-nodejs-sdk-v5');
 const axios = require('axios');
+const fetch = require('node-fetch');
 
 const cos = new COS({
     SecretId: 'AKIDkKfMxIVHwKUO7du82kDdpJajgP7ct423',
@@ -22,6 +23,11 @@ const JWT_SECRET =
 var conn = mysql.createConnection(models.mysql);
 
 conn.connect();
+
+const environment = process.env.ENVIRONMENT || 'sandbox';
+const client_id = 'AeCDYb060D3vGqVjupm7JGhDdoLpgiWuLiSde2bl_0P8mvs3f18jynCiDXB8LAfDpqnt7mULPeUIJgCN'; //process.env.CLIENT_ID;
+const client_secret = 'EAM0-cAUiXXfvPMTbPxuxgVbFF5Xcs4k3J7c_hmBKgnkbgvl9EbiWe2dVPSZYOYW9U52MczLONGh2Kxw'; //process.env.CLIENT_SECRET;
+const endpoint_url = environment === 'sandbox' ? 'https://api-m.sandbox.paypal.com' : 'https://api-m.paypal.com';
 
 var jsonWrite = function (res, ret) {
     if (typeof ret === 'undefined') {
@@ -163,7 +169,7 @@ router.post('/login', (req, res) => {
         } else {
             var resultArray = result[0];
             var obj = {
-                token: jsonwebtoken.sign({ user: 'sql_name' }, JWT_SECRET),
+                token: jsonwebtoken.sign({ user: 'sql_name', level: resultArray.level, expiredTime: resultArray.expired_time }, JWT_SECRET),
                 info: resultArray
             }
             res.send({ ...obj, code: 200 })
@@ -187,8 +193,17 @@ router.post('/thirdLogin', (req, res) => {
 
 // 主界面进行刷新时，调用接口验证token
 router.post('/checkToken', (req, res) => {
+    const authHeader = req.body.authorization;
 
-    res.send({ msg: '验证成功', code: 200 })
+    const token = authHeader.split(" ")[1];
+
+    try {
+        // Verify the token is valid
+        const result = jsonwebtoken.verify(token, JWT_SECRET);
+        res.send({ level: result.level, expiredTime: result.expiredTime, code: 200 })       
+    } catch (error) {
+        return res.status(401).json({ error: "Not Authorized" });
+    }
 });
 
 //获取用户信息
@@ -371,6 +386,83 @@ router.post('/uploadFile', (req, res) => {
     //     console.log(err || data);
     // });
 })
+
+router.post('/create_order', (req, res) => {
+    const price = req.body.price;
+    get_access_token()
+        .then(access_token => {
+            let order_data_json = {
+                'intent': req.body.intent.toUpperCase(),
+                'purchase_units': [{
+                    'amount': {
+                        'currency_code': 'USD',
+                        'value': price
+                    }
+                }]
+            };
+            const data = JSON.stringify(order_data_json)
+            
+            fetch(endpoint_url + '/v2/checkout/orders', { //https://developer.paypal.com/docs/api/orders/v2/#orders_create
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${access_token}`
+                    },
+                    body: data
+                })
+                .then(res => res.json())
+                .then(json => {
+                    res.send(json);
+                }) //Send minimal data to client
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err)
+        })
+});
+
+router.post('/complete_order', (req, res) => {
+    get_access_token()
+        .then(access_token => {
+            fetch(endpoint_url + '/v2/checkout/orders/' + req.body.order_id + '/' + req.body.intent, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${access_token}`
+                    }
+                })
+                .then(res => res.json())
+                .then(json => {
+                    console.log(json);
+                    res.send(json);
+                }) //Send minimal data to client
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err)
+        })
+});
+
+//PayPal Developer YouTube Video:
+//How to Retrieve an API Access Token (Node.js)
+//https://www.youtube.com/watch?v=HOkkbGSxmp4
+function get_access_token() {
+    console.log(client_id)
+    const auth = `${client_id}:${client_secret}`
+    const data = 'grant_type=client_credentials'
+    return fetch(endpoint_url + '/v1/oauth2/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': `Basic ${Buffer.from(auth).toString('base64')}`
+            },
+            body: data
+        })
+        .then(res => res.json())
+        .then(json => {
+            return json.access_token;
+        })
+}
 
 
 module.exports = router;

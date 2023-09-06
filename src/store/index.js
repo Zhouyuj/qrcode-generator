@@ -12,7 +12,9 @@ export default new Vuex.Store({
       showGeneratedCode: true,
       isLogged: localStorage.getItem('isLogged'),
       isThirdLogged: false,
-      userInfo: {}
+      userInfo: {},
+      price: 0,
+      level: 0
     }
   },
   mutations: {
@@ -33,6 +35,12 @@ export default new Vuex.Store({
     },
     setUserInfo(state, info) {
       state.userInfo = info;
+    },
+    setPrice(state, price) {
+      state.price = price;
+    },
+    setLevel(state, level) {
+      state.level = level;
     }
   }
 })

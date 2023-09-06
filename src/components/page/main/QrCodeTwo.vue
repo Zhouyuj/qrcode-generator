@@ -457,6 +457,12 @@ export default {
         generatedCodeSrc: function () {
             return this.$store.state.qrcodeSrc
         },
+        isLogged: function() {
+            return this.$store.state.isLogged;
+        },
+        level: function() {
+            return this.$store.state.level;
+        }
         // showGeneratedCode: function() {
         //     return this.$store.state.showGeneratedCode;
         // }
@@ -963,6 +969,21 @@ export default {
     methods: {
         changeQrCodeStyle(item) {
             if (item.active) return;
+            if (!this.isLogged) {
+                this.$message({
+                    message: '您未登录，请登录后重试',
+                    type: 'warning'
+                })
+            } else {
+                // 已经登录，判断level等级
+                if (this.level == 0) {
+                    // 免费版本
+                } else if (this.level == 1) {
+                    // 初级版本
+                } else if (this.level == 2) {
+                    // 高级版本
+                }
+            }
             this.qrcode_style = item.label;
             this.qrcode_styles.forEach((o) => (o.active = false));
             item.active = true;

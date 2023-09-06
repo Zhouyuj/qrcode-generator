@@ -34,11 +34,33 @@ export default {
         vQrcodeTwo
     },
     mounted() {
-        // this.$http.post('/checkToken').then(r => {
-            
-        // }).catch(e => {
-            
-        // })
+        const token = localStorage.getItem('token');
+        if (!token) {
+            this.$store.commit('setIsLogged', false);
+        } else {
+            this.$http.post('/checkToken', {
+                authorization: `Bearer ${token}`,
+            }).then(r => {
+                // token有效
+                if (r.data.code == 200) {
+                    this.$store.commit('setIsLogged', true);
+                    // 存储level信息
+                    const level = r.data.level;
+                    const expiredTime = r.data.expiredTime;
+                    if (expiredTime > Data.now()) {// TODO:
+                        this.$store.commit('setLevel', level);
+                    } else {
+                        this.$store.commit('setLevel', 0);
+                    }
+                } else {
+                    // token无效
+                    this.$store.commit('setIsLogged', false);
+                }
+            }).catch(e => {
+                // token无效
+                this.$store.commit('setIsLogged', false);
+            })
+        }
     }
 }
 </script>
